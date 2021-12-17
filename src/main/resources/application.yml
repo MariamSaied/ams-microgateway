@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: ams-microgateway
+
+
+server:
+  port: 7090
+  
+app:
+  config:
+    integration:
+      api:
+        base-uri: /mgw
+        health-base-url: /mgw/health
+        account-details-uri: /v1/ams/account/accountNumber/{accountNumber}
+        money-transfer-uri: /v1/ams/account/transfer
