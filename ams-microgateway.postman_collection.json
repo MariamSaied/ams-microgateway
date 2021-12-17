@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "10c4704a-27ed-4c5f-b915-29e7c145b4f6",
+		"name": "ams-microgateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getAccountDetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:7090/mgw/v1/ams/account/accountNumber/23890487",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"mgw",
+						"v1",
+						"ams",
+						"account",
+						"accountNumber",
+						"23890487"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "getAccountDetails",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:7090/mgw/v1/ams/account/accountNumber/23890487",
+							"host": [
+								"localhost"
+							],
+							"port": "7090",
+							"path": [
+								"mgw",
+								"v1",
+								"ams",
+								"account",
+								"accountNumber",
+								"23890487"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 Dec 2021 18:43:32 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 2000,\n    \"message\": \"Success\",\n    \"reason\": \"Success\",\n    \"data\": {\n        \"accountNumber\": \"23890487\",\n        \"ownerFullName\": \"User1\",\n        \"availableBalance\": 7000.6\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "transfer",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fromAccount\": \"23890487\",\r\n    \"toAccount\":\"23890488\",\r\n    \"amount\": 500.90\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7090/mgw/v1/ams/account/transfer",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"mgw",
+						"v1",
+						"ams",
+						"account",
+						"transfer"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "transfer",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fromAccount\": \"23890487\",\r\n    \"toAccount\":\"23890488\",\r\n    \"amount\": 500.90\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7090/mgw/v1/ams/account/transfer",
+							"host": [
+								"localhost"
+							],
+							"port": "7090",
+							"path": [
+								"mgw",
+								"v1",
+								"ams",
+								"account",
+								"transfer"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 Dec 2021 18:44:00 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 2000,\n    \"message\": \"Success\",\n    \"reason\": \"Success\"\n}"
+				}
+			]
+		}
+	]
+}
