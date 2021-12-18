@@ -1,45 +1,27 @@
-package technical.assignment.amsmicrogateway.dao;
+package technical.assignment.amsmicrogateway.synchronization;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.log4j.Log4j2;
 import technical.assignment.amsmicrogateway.dao.model.Account;
 import technical.assignment.amsmicrogateway.rest.vm.MoneyTransferRequest;
 
 /*this approach make sure that any read operation will wait if there's a write operation till it ends to ensure data consistency whenever we get Account details */
-@Service
+@Component
 @Primary
 @Log4j2
-public class AccountManagerDaoLockingImpl implements AccountManagerDao {
+public class ReentrantReadWriteLockingStrategy implements ConcurrentTransactionSynchronizer {
 
-	private Map<String, Account> accounts = new HashMap<>();
 	private ReadWriteLock lock = new ReentrantReadWriteLock();
 
-	@PostConstruct
 	@Override
-	public void loadAccounts() {
-
-		accounts.put("23890487", Account.builder().accountNumber("23890487").ownerFullName("User1")
-				.availableBalance(BigDecimal.valueOf(7000.60)).build());
-
-		accounts.put("23890488", Account.builder().accountNumber("23890488").ownerFullName("User2")
-				.availableBalance(BigDecimal.valueOf(5000.20)).build());
-
-		log.info("Accounts created successfully!");
-	}
-
-	@Override
-	public Optional<Account> getAccountDetails(String accountNumber) {
+	public Optional<Account> getAccountDetails(String accountNumber,Map<String, Account> accounts) {
 
 		Optional<Account> accountOptional = Optional.empty();
 		lock.readLock().lock();
@@ -56,7 +38,7 @@ public class AccountManagerDaoLockingImpl implements AccountManagerDao {
 	}
 
 	@Override
-	public void transferMoney(MoneyTransferRequest moneyTransferRequest) {
+	public void transferMoney(MoneyTransferRequest moneyTransferRequest,Map<String, Account> accounts) {
 
 		lock.writeLock().lock();
 

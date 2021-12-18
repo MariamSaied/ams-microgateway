@@ -1,4 +1,4 @@
-package technical.assignment.amsmicrogateway.dao;
+package technical.assignment.amsmicrogateway.dao.impl;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -7,16 +7,21 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import technical.assignment.amsmicrogateway.dao.AccountManagerDao;
 import technical.assignment.amsmicrogateway.dao.model.Account;
 import technical.assignment.amsmicrogateway.rest.vm.MoneyTransferRequest;
+import technical.assignment.amsmicrogateway.synchronization.ConcurrentTransactionSynchronizer;
 
-/* this approach locking the writings on the same accounts and it doesn't apply any locks on the read operations*/
 @Service
-public class AccountManagerDaoSynchronizedImpl implements AccountManagerDao {
+public class AccountManagerImpl implements AccountManagerDao {
 
 	private Map<String, Account> accounts = new HashMap<>();
+
+	@Autowired
+	private ConcurrentTransactionSynchronizer synchronizer;
 
 	@PostConstruct
 	@Override
@@ -33,26 +38,14 @@ public class AccountManagerDaoSynchronizedImpl implements AccountManagerDao {
 	@Override
 	public Optional<Account> getAccountDetails(String accountNumber) {
 
-		Account account = accounts.get(accountNumber);
-		return Optional.ofNullable(account);
+		return synchronizer.getAccountDetails(accountNumber, accounts);
 
 	}
 
 	@Override
 	public void transferMoney(MoneyTransferRequest moneyTransferRequest) {
 
-		Account fromAccount = accounts.get(moneyTransferRequest.getFromAccount());
-
-		synchronized (fromAccount) {
-
-			fromAccount
-					.setAvailableBalance(fromAccount.getAvailableBalance().subtract(moneyTransferRequest.getAmount()));
-
-			accounts.get(moneyTransferRequest.getToAccount())
-					.setAvailableBalance(accounts.get(moneyTransferRequest.getToAccount()).getAvailableBalance()
-							.add(moneyTransferRequest.getAmount()));
-
-		}
+		synchronizer.transferMoney(moneyTransferRequest, accounts);
 
 	}
 

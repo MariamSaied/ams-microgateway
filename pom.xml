@@ -18,7 +18,7 @@
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
 		<sonar-maven-plugin.version>3.9.0.2155</sonar-maven-plugin.version>
 		<sonar.exclusions>
-			**/model/**,**/swagger/**,**/config/**,**/vm/**,**/exception/**,**/health/**,**/constants/**
+			**/model/**,**/swagger/**,**/config/**,**/vm/**,**/exception/**,**/health/**,**/constants/**,technical.assignment.amsmicrogateway.AmsMicrogatewayApplication
 		</sonar.exclusions>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>./target/site/jacoco/jacoco.xml</sonar.jacoco.reportPath>
@@ -98,6 +98,7 @@
 						<exclude>**/exception/**</exclude>
 						<exclude>**/swagger/**</exclude>
 						<execlude>**/health/**</execlude>
+						<exclude>technical.assignment.amsmicrogateway.AmsMicrogatewayApplication</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
